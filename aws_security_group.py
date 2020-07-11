@@ -16,11 +16,11 @@ class aws_security_group(object):
 	def __init__(self):
 		self._logging = aws_logging()
 
-	def get_VPCs(self, region_name):
+	def get_VPCs(self):
 		self._logging.create_log("info", "Getting the VPCs")
 		vps = []
 
-		ec2 = boto3.resource('ec2', region_name=region_name )
+		ec2 = boto3.resource('ec2', region_name=config['region'] )
 		client = boto3.client('ec2')
 
 		try:
@@ -31,8 +31,10 @@ class aws_security_group(object):
 			self._logging.create_log("error", "Error while getting the VPCs Information:" + (str(e)) )
 			return None
 
+	#TODO - this is needed to be improved
+	#Currently it takes vpc_id of the first VPC it find for the region		
 	def get_subnet_id(self):
-		vpcs = self.get_VPCs(config['region'])
+		vpcs = self.get_VPCs()
 		if vpcs == None:
 			self._logging.create_log("error", "Error while getting the VPCs Information:" + (str(e)) )
 			return None
@@ -126,7 +128,7 @@ class aws_security_group(object):
 		client = boto3.client('ec2')
 
 		try:
-			vpcs = self.get_VPCs(config['region'])
+			vpcs = self.get_VPCs()
 			selected_vpc = self.get_specific_vpc(vpcs)
 			
 			if selected_vpc == None:
