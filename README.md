@@ -18,3 +18,14 @@ On command line please follow these steps:
   
     git clone https://github.com/ronin1770/security-group-manager.git
 
+<B>Usage</B>
+Please review <strong>test.py</strong> to understand the class usage. It is self explanatory and heavily commented. 
+
+<B>Disclaimer</B>
+This is by no means provides the complete functionality available at AWS Boto3 API/SDK but an attempt to make it more easy for all us programmers. 
+
+<B>Need your support</B>
+If you like my work please show your gratitude by visiting my Patreon Page at: https://www.patreon.com/farhanmunir
+
+<B>My Blog</B>
+Photos / code / fun stuff at: https://ronin1770.com
