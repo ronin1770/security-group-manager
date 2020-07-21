@@ -16,6 +16,34 @@ class aws_security_group(object):
 	def __init__(self):
 		self._logging = aws_logging()
 
+
+	#Create VPC method
+	#This method creates a VPC with the following properties	
+	def create_VPC(self, vpc_name, cidr_block):
+		self._logging.create_log( "info", "Creating a VPC with name: " + vpc_name )
+		vps = []
+
+		ec2 = boto3.resource('ec2', region_name=config['region'] )
+		client = boto3.client('ec2')
+
+		try:
+			response = client.create_vpc( 
+				CidrBlock=cidr_block
+			)
+
+			client.modify_vpc_attribute(VpcId=response['Vpc']['VpcId'], EnableDnsSupport={'Value': True})
+			client.modify_vpc_attribute(VpcId=response['Vpc']['VpcId'], EnableDnsHostnames={'Value': True})
+
+			client.create_tags(Resources=[response['Vpc']['VpcId']], Tags=[{'Key': 'Name', 'Value': vpc_name}])
+
+
+			return response
+
+		except Exception as e:
+			self._logging.create_log("error", "Error in create_VPC" +  str(e) )
+			return None
+
+
 	def get_VPCs(self):
 		self._logging.create_log("info", "Getting the VPCs")
 		vps = []

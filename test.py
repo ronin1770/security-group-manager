@@ -3,8 +3,23 @@ import pprint
 from aws_logging import *
 
 if __name__ == "__main__":
+	#Testing creating a new VPC
+	_logging = aws_logging()
+	pp = pprint.PrettyPrinter(indent=4)
+	_logging.create_log("info", "Initializing the class");
+	asg = aws_security_group()
+
+	vpc_name = "Ronin"
+	cidr_block = "10.1.0.0/16"
+
+	response = asg.create_VPC(vpc_name, cidr_block)
+
+	pp.pprint(response)
+
+
 	#Allow SSH from specific IP
 	#Allow Web acccess globally
+	"""
 	rules = [ 
 				{ 'FromPort':22, 'ToPort' : 22, 'IpProtocol':'tcp', 'IpRanges':[ {'CidrIp':'202.47.32.55/32', 'Description':'SSH access from Home'}] },  
 				{ 'FromPort':80, 'ToPort' : 80, 'IpProtocol':'tcp', 'IpRanges':[ {'CidrIp':'0.0.0.0/0', 'Description':'Global web access'}] }
@@ -45,3 +60,4 @@ if __name__ == "__main__":
 
 	_logging.create_log("info", "Security group information for : " +  new_sg_name + " has been retrieved")
 	pp.pprint(sg)
+	"""
