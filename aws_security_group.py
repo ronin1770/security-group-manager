@@ -17,6 +17,33 @@ class aws_security_group(object):
 		self._logging = aws_logging()
 
 
+	#Get the VPC's DHCP options
+	#This methiod retrieves the DHCP options for a given VPC ID
+	def get_VPC_DHCP_options(self, vpc_id):
+		ret = []
+
+		try:
+			ec2 = boto3.resource('ec2', region_name=config['region'] )
+			client = boto3.client('ec2')
+			vpc = ec2.Vpc(vpc_id)
+
+			dhcp_options = vpc.dhcp_options
+			dhcp_options_id = []
+			dhcp_options_id.append( dhcp_options.id )
+
+			response = client.describe_dhcp_options( DhcpOptionsIds=dhcp_options_id)
+
+			if  response['ResponseMetadata']['HTTPStatusCode'] != 200:
+				self._logging.create_log("info", "get_VPC_DHCP_options return status code: " + response['ResponseMetadata']['HTTPStatusCode'] )
+				return None
+			
+			return response['DhcpOptions'] 
+
+		except Exception as e:	
+			self._logging.create_log("error", "get_VPC_DHCP_options encountered following error: " + str(e) )
+			return None
+
+
 	#Create VPC method
 	#This method creates a VPC with the following properties	
 	def create_VPC(self, vpc_name, cidr_block):
@@ -35,7 +62,6 @@ class aws_security_group(object):
 			client.modify_vpc_attribute(VpcId=response['Vpc']['VpcId'], EnableDnsHostnames={'Value': True})
 
 			client.create_tags(Resources=[response['Vpc']['VpcId']], Tags=[{'Key': 'Name', 'Value': vpc_name}])
-
 
 			return response
 
