@@ -1,5 +1,4 @@
-Jenkinsfile (Declarative Pipeline)
-pipeline {
+xpipeline {
     agent any
     stages {
         stage('Deploy') {
