@@ -5,7 +5,7 @@ pipeline {
             steps {
                 timeout(time: 2, unit: 'MINUTES') {
                     retry(10) {
-                        sh './flakey-deploy.sh'
+                        sh '/usr/local/security-group-manager/flakey-deploy.sh'
                     }
                 }
             }
