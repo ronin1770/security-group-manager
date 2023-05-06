@@ -2,14 +2,27 @@
 pipeline {
     agent any
     stages {
-        stage('Deploy') {
+        stage('Test') {
             steps {
-                timeout(time: 2, unit: 'MINUTES') {
-                    retry(10) {
-                        sh '/usr/local/security-group-manager/flakey-deploy.sh'
-                    }
-                }
+                sh 'echo "Fail!"; exit 1'
             }
+        }
+    }
+    post {
+        always {
+            echo 'This always runs'
+        }
+        success {
+            echo 'This only runs when successful'
+        }
+        failure {
+            echo 'This only runs when failed'
+        }
+        unstable {
+            echo 'This only runs when marked unstable'
+        }
+        changed {
+            echo 'This only runs when the Pipeline’s state changes'
         }
     }
 }
