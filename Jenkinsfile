@@ -1,27 +1,18 @@
-//Jenkinsfile (Declarative Pipeline)
-pipeline {
-    agent any 
-    stages {
-        stage('Build') { 
-            steps {
-                echo 'Starting the build Stage'
-
+//Jenkinsfile (Scripted Pipeline)
+node {  
+    stage('Build') { 
+        echo 'Starting Build Stage'
+		
 		echo 'Build Stage completed successfully'
-            }
-        }
-        stage('Test') { 
-            steps {
-                echo 'Starting the Test Stage'
-
-		echo 'Test Stage completed successcfully'
-            }
-        }
-        stage('Deploy') { 
-            steps {
-                echo 'Starting the Deploy Stage'
-
+    }
+    stage('Test') { 
+        echo 'Starting Test Stage'
+		
+		echo 'Test Stage completed successfully'
+    }
+    stage('Deploy') { 
+        echo 'Starting Deploy Stage'
+		
 		echo 'Deploy Stage completed successfully'
-            }
-        }
     }
 }
