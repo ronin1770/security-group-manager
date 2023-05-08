@@ -1,28 +1,27 @@
 //Jenkinsfile (Declarative Pipeline)
 pipeline {
-    agent any
+    agent any 
     stages {
-        stage('Test') {
+        stage('Build') { 
             steps {
-                sh 'echo "Fail!"; exit 1'
+                echo 'Starting the build Stage'
+
+		echo 'Build Stage completed successfully'
             }
         }
-    }
-    post {
-        always {
-            echo 'This always runs'
+        stage('Test') { 
+            steps {
+                echo 'Starting the Test Stage'
+
+		echo 'Test Stage completed successcfully'
+            }
         }
-        success {
-            echo 'This only runs when successful'
-        }
-        failure {
-            echo 'This only runs when failed'
-        }
-        unstable {
-            echo 'This only runs when marked unstable'
-        }
-        changed {
-            echo 'This only runs when the Pipeline’s state changes'
+        stage('Deploy') { 
+            steps {
+                echo 'Starting the Deploy Stage'
+
+		echo 'Deploy Stage completed successfully'
+            }
         }
     }
 }
